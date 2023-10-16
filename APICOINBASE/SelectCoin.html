@@ -1,93 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Τιμή Bitcoin</title>
+    <link rel="stylesheet" type="text/css" href="design.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
+</head>
+<body>
+    <h1>Τρέχουσα Τιμή Bitcoin</h1>
+    
+    <form id="currency-form">
+        <label for="currency-select">Επιλέξτε νόμισμα:</label>
+        <select id="currency-select">
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+           
+        </select>
+        <button type="button" id="refresh-button">Refresh</button>
+    </form>
+    
+    <div id="bitcoin-price">
+      <span id="currency-description">Η τρέχουσα τιμή του Bitcoin σε EUR:</span>
+    <span id="bitcoin-price-value"></span>
+    </div>
 
+    <div id="average-section">
+        <div id="average-5-minutes">
+            <h2>Μέσος όρος των τιμών σε 5 λεπτά</h2>
+            <p id="average-5-minutes-value">-</p>
+        </div>
 
-const bitcoinPriceElement = document.getElementById('bitcoin-price-value');
-const currencySelect = document.getElementById('currency-select');
-const currencyDescription = document.getElementById('currency-description');
-const refreshButton = document.getElementById('refresh-button');
-const average5MinutesValue = document.getElementById('average-5-minutes-value');
-const average30MinutesValue = document.getElementById('average-30-minutes-value');
-const average60MinutesValue = document.getElementById('average-60-minutes-value');
+        <div id="average-30-minutes">
+            <h2>Μέσος όρος των τιμών σε 30 λεπτά</h2>
+            <p id="average-30-minutes-value">-</p>
+        </div>
 
-const takeaverage = [];
-// Χρονικά διαστήματα σε λεπτά.
-const time = [5, 30, 60]; 
-
-
-//chart
-const chartOptions = {
-    chart: {
-        type: 'line',
-    },
-    xaxis: {
-        categories: [5,30,60], 
-    },
-};
-
-const chartSeries = [
-    {
-        name: 'Τιμή Bitcoin',
-        data: [5000], 
-    },
-];
-
-const chart = new ApexCharts(document.querySelector('#chart'), chartOptions);
-
-chart.render();
-
-function calculateAverages() {
-    for (const interval of time) {
-        const pricesInInterval = takeaverage.slice(-interval);
-        const average = pricesInInterval.reduce((total, price) => total + price, 0) / interval;
-        const averageElement = document.getElementById(`average-${interval}-minutes-value`);
-        averageElement.textContent = isNaN(average) ? '-' : average.toFixed(2);
-    }
-}
-
-function fetchBitcoinPrice() {
-    const selectedCurrency = currencySelect.value;
-    let description = '';
-    switch (selectedCurrency) {
-        case 'EUR':
-            description = 'Η τρέχουσα τιμή του Bitcoin σε EUR:';
-            break;
-        case 'USD':
-            description = 'Η τρέχουσα τιμή του Bitcoin σε USD:';
-            break;
+        <div id="average-60-minutes">
+            <h2>Μέσος όρος των τιμών σε 60 λεπτά</h2>
+            <p id="average-60-minutes-value">-</p>
+        </div>
         
-    }
+    </div>
+    
+    <div id="chart"></div>
 
-    currencyDescription.textContent = description;
 
-    fetch(`https://api.coinbase.com/v2/prices/spot?currency=${selectedCurrency}`)
-        .then(response => response.json())
-        .then(data => {
-            const bitcoinPrice = parseFloat(data.data.amount);
-            bitcoinPriceElement.textContent = bitcoinPrice.toFixed(2);
-            takeaverage.push(bitcoinPrice);
-            
-            // Μέσοι όροι
-            calculateAverages();
-            chartOptions.xaxis.categories.push(new Date().toLocaleTimeString());
-            chartSeries[0].data.push(bitcoinPrice);
-            chart.updateSeries([
-                {
-                  data: self.chartData.series[0].data,
-                },
-              ]);
-            })
-          // this.chartOptions.xaxis.categories.push(new Date().toLocaleTimeString());
-            //chartOptions.xaxis.categories.push(newTime.toString());
-           // this.chartSeries[0].data.push(bitcoinPrice);
-        
-        .catch(error => {
-            console.error('Error while loading Bitcoin:', error);
-        });
-}
+    <script src="coinbase.js"></script>
 
-refreshButton.addEventListener('click', fetchBitcoinPrice);
-
-// Επανεκκίνηση υπολογισμού μέσων όρων
-calculateAverages();
-
-// Ανανέωση κάθε ένα λεπτό.
-setInterval(fetchBitcoinPrice, 60000);
+    
+</body>
+</html>
