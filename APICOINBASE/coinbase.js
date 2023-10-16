@@ -1,3 +1,5 @@
+
+
 const bitcoinPriceElement = document.getElementById('bitcoin-price-value');
 const currencySelect = document.getElementById('currency-select');
 const currencyDescription = document.getElementById('currency-description');
@@ -7,7 +9,30 @@ const average30MinutesValue = document.getElementById('average-30-minutes-value'
 const average60MinutesValue = document.getElementById('average-60-minutes-value');
 
 const takeaverage = [];
-const time = [5, 30, 60]; // Χρονικά διαστήματα σε λεπτά.
+// Χρονικά διαστήματα σε λεπτά.
+const time = [5, 30, 60]; 
+
+
+//chart
+const chartOptions = {
+    chart: {
+        type: 'line',
+    },
+    xaxis: {
+        categories: [5,30,60], 
+    },
+};
+
+const chartSeries = [
+    {
+        name: 'Τιμή Bitcoin',
+        data: [5000], 
+    },
+];
+
+const chart = new ApexCharts(document.querySelector('#chart'), chartOptions);
+
+chart.render();
 
 function calculateAverages() {
     for (const interval of time) {
@@ -42,10 +67,18 @@ function fetchBitcoinPrice() {
             
             // Μέσοι όροι
             calculateAverages();
-
-            this.chartOptions.xaxis.categories.push(new Date().toLocaleTimeString());
-            this.chartSeries[0].data.push(bitcoinPrice);
-        })
+            chartOptions.xaxis.categories.push(new Date().toLocaleTimeString());
+            chartSeries[0].data.push(bitcoinPrice);
+            chart.updateSeries([
+                {
+                  data: self.chartData.series[0].data,
+                },
+              ]);
+            })
+          // this.chartOptions.xaxis.categories.push(new Date().toLocaleTimeString());
+            //chartOptions.xaxis.categories.push(newTime.toString());
+           // this.chartSeries[0].data.push(bitcoinPrice);
+        
         .catch(error => {
             console.error('Error while loading Bitcoin:', error);
         });
