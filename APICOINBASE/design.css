@@ -1,0 +1,50 @@
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+
+h1 {
+    color: #333;
+    margin-top: 20px;
+}
+
+
+#currency-form {
+    margin-top: 20px;
+}
+
+
+label {
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+
+#currency-select {
+    font-size: 16px;
+    padding: 5px;
+}
+
+
+#refresh-button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+#bitcoin-price {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #333;
+}

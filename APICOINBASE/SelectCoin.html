@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Τιμή Bitcoin</title>
+    <link rel="stylesheet" type="text/css" href="design.css">
+
+</head>
+<body>
+    <h1>Τρέχουσα Τιμή Bitcoin</h1>
+    
+    <form id="currency-form">
+        <label for="currency-select">Επιλέξτε νόμισμα:</label>
+        <select id="currency-select">
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+           
+        </select>
+        <button type="button" id="refresh-button">Refresh</button>
+    </form>
+    
+    <div id="bitcoin-price">
+      <span id="currency-description">Η τρέχουσα τιμή του Bitcoin σε EUR:</span>
+    <span id="bitcoin-price-value"></span>
+    </div>
+
+    <div id="average-section">
+        <div id="average-5-minutes">
+            <h2>Μέσος όρος των τιμών σε 5 λεπτά</h2>
+            <p id="average-5-minutes-value">-</p>
+        </div>
+
+        <div id="average-30-minutes">
+            <h2>Μέσος όρος των τιμών σε 30 λεπτά</h2>
+            <p id="average-30-minutes-value">-</p>
+        </div>
+
+        <div id="average-60-minutes">
+            <h2>Μέσος όρος των τιμών σε 60 λεπτά</h2>
+            <p id="average-60-minutes-value">-</p>
+        </div>
+        
+    </div>
+    
+    <div id="chart"></div>
+
+
+    <script src="coinbase.js"></script>
+
+    
+</body>
+</html>
